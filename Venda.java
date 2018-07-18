@@ -6,11 +6,20 @@ public class Venda {
     private ArrayList<ItemVenda> itens = new ArrayList<>();
     private Estado estadoCliente;
     private Transportadora transportadora;
+    private FormaDePagamento formaDePagamento;
 
     public Venda(int id, Estado estadoCliente, Transportadora transportadora) {
         this.id = id;
         this.estadoCliente = estadoCliente;
         this.transportadora = transportadora;
+    }
+    
+    public void setFormaDePagamento(FormaDePagamento formaDePagamento) {
+        this.formaDePagamento = formaDePagamento;
+    }
+    
+    public FormaDePagamento getFormaDePagamento() {
+        return this.formaDePagamento;
     }
     
     public Estado getEstadoCliente() {
@@ -27,8 +36,22 @@ public class Venda {
     public double getPrecoTotal() {
         double total = somarItens();
         total *= 1 + getAliquotaICMS();
-        return total + getFrete();
+        total += getFrete();
+        total += this.formaDePagamento.getCustoFormaPagamento(total);
+        return total;
     }
+    
+//    private double getCustoFormaPagamento(double valor) {        
+//        switch (formaDePagamento) {          
+//            case "Boleto":
+//                return 2.5;                
+//            case "Crédito":
+//                return valor * 0.05;
+//            case "Débito":
+//                return valor * 0.03;
+//        }        
+//        retu rn 0.0;
+//    }
     
     public double somarItens() {
         double total = 0.0;
