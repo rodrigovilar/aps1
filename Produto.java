@@ -54,8 +54,20 @@ public class Produto {
     public double getIpi() {
         return ipi;
     }
+    
+    public double getImpostoSobreProduto() {
+        if (preco > 1000) {
+            return preco * 0.01;
+        } 
+        
+        if (preco > 100) {
+            return 20;
+        }
+        
+        return 0;
+    }
 
     public double getPrecoComImposto() {
-        return getPreco() * (1 + getIpi());
+        return getPreco() * (1 + getIpi()) + getImpostoSobreProduto();
     }
 }

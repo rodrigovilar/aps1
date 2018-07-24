@@ -7,6 +7,7 @@ public class Venda {
     private Estado estadoCliente;
     private Transportadora transportadora;
     private FormaDePagamento formaDePagamento;
+    private Cliente cliente;
 
     public Venda(int id, Estado estadoCliente, Transportadora transportadora) {
         this.id = id;
@@ -30,6 +31,9 @@ public class Venda {
         ItemVenda itemVenda = new ItemVenda();
         itemVenda.setQuantidade(quantidade);
         itemVenda.setProduto(produto);
+        if (cliente.isVIP() ) {
+            itemVenda.setQuantidade(quantidade + 1);
+        }
         this.itens.add(itemVenda);
     }
     
@@ -38,6 +42,10 @@ public class Venda {
         total *= 1 + getAliquotaICMS();
         total += getFrete();
         total += this.formaDePagamento.getCustoFormaPagamento(total);
+        if (cliente.isVIP() ) {
+            return total * 0.9;
+        }
+        
         return total;
     }
     
